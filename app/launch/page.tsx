@@ -333,7 +333,7 @@ function FeeField({
         step={0.1}
         value={Number.isFinite(value) ? value : 0}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full accent-[#F5CA65]"
+        className="w-full accent-[#A66BFF]"
         aria-label={label}
       />
       {error && <p className="mt-1 text-xs text-tradered">{error}</p>}

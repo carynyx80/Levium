@@ -37,8 +37,8 @@ export function PriceChart({ symbol, basePrice }: { symbol: string; basePrice: n
       const mod = await import("lightweight-charts");
       if (cancelled || !ref.current) return;
       chart = mod.createChart(ref.current, {
-        layout: { background: { color: "transparent" }, textColor: "#A5B9AC" },
-        grid: { vertLines: { color: "#123B2F" }, horzLines: { color: "#123B2F" } },
+        layout: { background: { color: "transparent" }, textColor: "#B5A5CC" },
+        grid: { vertLines: { color: "#3C235D" }, horzLines: { color: "#3C235D" } },
         width: ref.current.clientWidth,
         height: 380,
       });

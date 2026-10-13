@@ -5,15 +5,15 @@
 @tailwind utilities;
 
 :root {
-  --forest-950: #071c16;
-  --forest-900: #0b2920;
-  --forest-800: #123b2f;
-  --forest-border: #254a3c;
-  --gold: #f5ca65;
-  --gold-bright: #ffd84d;
+  --forest-950: #100a1e;
+  --forest-900: #1a102d;
+  --forest-800: #241638;
+  --forest-border: #3c235d;
+  --gold: #a66bff;
+  --gold-bright: #bd91ff;
   --emerald-brand: #087f5b;
-  --ivory: #f8f6ea;
-  --sage: #a5b9ac;
+  --ivory: #f4efff;
+  --sage: #b5a5cc;
 }
 
 html,
@@ -66,12 +66,28 @@ h3,
   @apply animate-pulse rounded-lg bg-forest-800;
 }
 
+/* Subtle lavender glow for featured / hover elements */
+.glow-lavender {
+  box-shadow:
+    0 0 24px rgba(166, 107, 255, 0.25),
+    0 0 64px rgba(166, 107, 255, 0.12);
+}
+
+::selection {
+  background: rgba(166, 107, 255, 0.4);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 2px;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #254a3c;
+  background: #3c235d;
   border-radius: 8px;
 }
 ::-webkit-scrollbar-track {
