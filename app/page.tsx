@@ -42,7 +42,7 @@ export default function HomePage() {
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-gold">
             Launch it. Long it. Short it.
           </p>
-          <h1 className="mt-3 max-w-2xl font-display text-4xl font-bold leading-tight text-ivory sm:text-6xl">
+          <h1 className="mt-3 max-w-2xl font-display text-4xl font-bold leading-[1.05] tracking-tight text-ivory sm:text-6xl">
             Every Token Deserves Leverage.
           </h1>
           <p className="mt-4 max-w-xl text-sage">

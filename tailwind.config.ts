@@ -24,9 +24,9 @@ const config: Config = {
         tradered: "#FF5263", // trading indicators (preserved)
       },
       fontFamily: {
-        display: ["Space Grotesk", "Inter", "system-ui", "sans-serif"],
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
+        display: ["Satoshi", "system-ui", "-apple-system", "sans-serif"],
+        sans: ["Satoshi", "system-ui", "-apple-system", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"],
       },
     },
   },
