@@ -13,9 +13,12 @@ export const ADDRESSES = {
 
 export const factoryAbi = [
   "event TokenLaunched(address indexed token, address indexed creator, uint256 supply, uint256 launchFee, uint256 timestamp)",
+  "event TokenLaunchedWithFees(address indexed token, address indexed creator, uint256 supplyWhole, uint256 buyFeeBps, uint256 sellFeeBps, uint256 creatorFeeBps, uint256 timestamp)",
   "function launchFee() view returns (uint256)",
   "function defaultSupply() view returns (uint256)",
   "function launch(string name, string symbol, string metadataURI) payable returns (address token)",
+  "function launchWithFees(string name, string symbol, string metadataURI, uint256 supplyWhole, uint256 buyFeeBps, uint256 sellFeeBps, uint256 creatorFeeBps) payable returns (address token)",
+  "function isValidSupply(uint256 supplyWhole) view returns (bool)",
   "function getToken(address token) view returns (bool exists, address creator, uint256 supply)",
 ] as const;
 

@@ -25,6 +25,10 @@ export const DEMO_MARKETS: Market[] = [
     perpsStatus: "PERPS_LIVE",
     launchedAt: Date.now() - 6 * 86_400_000,
     graduated: true,
+    totalSupply: 1_000_000_000,
+    buyFeeBps: 100,
+    sellFeeBps: 100,
+    creatorFeeBps: 50,
   },
   {
     tokenAddress: "0x2222222222222222222222222222222222222222",
@@ -41,6 +45,10 @@ export const DEMO_MARKETS: Market[] = [
     perpsStatus: "PERPS_PENDING",
     launchedAt: Date.now() - 26 * 3_600_000,
     graduated: false,
+    totalSupply: 100_000_000,
+    buyFeeBps: 0,
+    sellFeeBps: 0,
+    creatorFeeBps: 0,
   },
   {
     tokenAddress: "0x3333333333333333333333333333333333333333",
@@ -57,6 +65,10 @@ export const DEMO_MARKETS: Market[] = [
     perpsStatus: "PERPS_PAUSED",
     launchedAt: Date.now() - 21 * 86_400_000,
     graduated: true,
+    totalSupply: 10_000_000,
+    buyFeeBps: 200,
+    sellFeeBps: 200,
+    creatorFeeBps: 100,
   },
 ];
 

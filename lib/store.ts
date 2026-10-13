@@ -20,6 +20,13 @@ export interface Market {
   perpsStatus: PerpsStatus;
   launchedAt: number;
   graduated: boolean;
+  // --- ADDITIVE (optional: unknown until the indexer/contract reports them) ---
+  /** Fixed total supply in whole tokens (1M / 10M / 100M / 1B). */
+  totalSupply?: number;
+  /** Per-token trade fees in bps (0–1000). Absent = legacy/unreported. */
+  buyFeeBps?: number;
+  sellFeeBps?: number;
+  creatorFeeBps?: number;
 }
 
 export interface SimPosition {

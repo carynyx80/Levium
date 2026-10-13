@@ -10,10 +10,14 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "compile": "node backend/scripts/compile.mjs",
+    "rpc:check": "node backend/scripts/rpc-check.mjs",
+    "deploy": "node backend/scripts/deploy.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
+    "@openzeppelin/contracts": "^5.2.0",
     "@rainbow-me/rainbowkit": "2.2.3",
     "@tanstack/react-query": "^5.59.0",
     "clsx": "^2.1.1",
@@ -24,6 +28,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
+    "solc": "^0.8.24",
     "tailwind-merge": "^2.5.4",
     "viem": "2.21.0",
     "wagmi": "2.12.8",

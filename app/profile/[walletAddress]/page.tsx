@@ -1,11 +1,10 @@
 "use client";
 
-import { use } from "react";
 import { shortAddress } from "@/lib/utils";
 import { explorerAddressUrl } from "@/lib/chain";
 
-export default function ProfilePage({ params }: { params: Promise<{ walletAddress: string }> }) {
-  const { walletAddress } = use(params);
+export default function ProfilePage({ params }: { params: { walletAddress: string } }) {
+  const { walletAddress } = params;
   return (
     <div className="flex flex-col gap-5">
       <div className="card flex items-center gap-4 p-6">

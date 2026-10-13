@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { fetchMarkets } from "@/lib/market-data";
 import type { Market } from "@/lib/store";
@@ -10,12 +10,16 @@ import { PerpsPanel } from "@/components/PerpsPanel";
 import { StatusBadge } from "@/components/StatusBadge";
 import { formatPct, formatUsd, cn, shortAddress } from "@/lib/utils";
 import { explorerAddressUrl } from "@/lib/chain";
+import { readSpotPrice } from "@/lib/discovery";
+import { useEthPrice } from "@/lib/useEthPrice";
 
-export default function TradePage({ params }: { params: Promise<{ tokenAddress: string }> }) {
-  const { tokenAddress } = use(params);
+export default function TradePage({ params }: { params: { tokenAddress: string } }) {
+  const { tokenAddress } = params;
   const [market, setMarket] = useState<Market | null>(null);
   const [tab, setTab] = useState<"spot" | "perps">("spot");
   const [loading, setLoading] = useState(true);
+  const [livePriceWei, setLivePriceWei] = useState<bigint | null>(null);
+  const ethPrice = useEthPrice();
 
   useEffect(() => {
     fetchMarkets().then((r) => {
@@ -23,6 +27,26 @@ export default function TradePage({ params }: { params: Promise<{ tokenAddress: 
       setLoading(false);
     });
   }, [tokenAddress]);
+
+  // Live on-chain price poll (authoritative when available; indexed price otherwise).
+  useEffect(() => {
+    let alive = true;
+    const poll = () =>
+      readSpotPrice(tokenAddress)
+        .then((p) => alive && p !== null && setLivePriceWei(p))
+        .catch(() => {});
+    poll();
+    const t = setInterval(poll, 12_000);
+    return () => {
+      alive = false;
+      clearInterval(t);
+    };
+  }, [tokenAddress]);
+
+  const livePriceUsd =
+    livePriceWei !== null && ethPrice !== null
+      ? (Number(livePriceWei) / 1e18) * ethPrice.usd
+      : null;
 
   if (loading) {
     return (
@@ -44,6 +68,19 @@ export default function TradePage({ params }: { params: Promise<{ tokenAddress: 
     );
   }
 
+  // Per-token on-chain fees when the indexer reports them.
+  const fees =
+    market.buyFeeBps !== undefined
+      ? {
+          buyFeeBps: market.buyFeeBps,
+          sellFeeBps: market.sellFeeBps ?? 0,
+          creatorFeeBps: market.creatorFeeBps ?? 0,
+        }
+      : undefined;
+
+  // Display price: live on-chain when available, indexed otherwise (labeled).
+  const displayPrice = livePriceUsd ?? market.price;
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-3">
@@ -61,9 +98,12 @@ export default function TradePage({ params }: { params: Promise<{ tokenAddress: 
           {shortAddress(tokenAddress)}
         </a>
         <span className="num ml-auto font-display text-2xl font-bold text-ivory">
-          {formatUsd(market.price, 4)}
+          {formatUsd(displayPrice, 4)}
           <span className={cn("ml-2 text-sm", market.change24h >= 0 ? "text-tradegreen" : "text-tradered")}>
             {formatPct(market.change24h)}
+          </span>
+          <span className="ml-2 align-middle text-[10px] font-bold text-sage">
+            {livePriceUsd !== null ? "● LIVE ON-CHAIN" : "INDEXED"}
           </span>
         </span>
       </div>
@@ -73,13 +113,25 @@ export default function TradePage({ params }: { params: Promise<{ tokenAddress: 
         <aside className="card h-fit p-5 text-sm">
           <p className="label">Market stats</p>
           <div className="flex flex-col gap-2">
-            <Stat k="Market cap" v={formatUsd(market.marketCap, 0)} />
+            <Stat k="Total supply" v={market.totalSupply ? `${market.totalSupply.toLocaleString()}` : "—"} />
+            <Stat k="Circulating supply" v={market.totalSupply ? `${market.totalSupply.toLocaleString()}` : "—"} />
+            <Stat k="Market cap" v={market.totalSupply ? formatUsd(displayPrice * market.totalSupply, 0) : formatUsd(market.marketCap, 0)} />
+            <Stat k="FDV" v={market.totalSupply ? formatUsd(displayPrice * market.totalSupply, 0) : "—"} />
             <Stat k="Liquidity" v={formatUsd(market.liquidity, 0)} />
             <Stat k="Volume 24H" v={formatUsd(market.volume24h, 0)} />
             <Stat k="Long OI" v={formatUsd(market.longOI, 0)} />
             <Stat k="Short OI" v={formatUsd(market.shortOI, 0)} />
+            <Stat k="Buy / Sell / Creator fee" v={
+              market.buyFeeBps !== undefined
+                ? `${(market.buyFeeBps / 100).toFixed(1)}% / ${((market.sellFeeBps ?? 0) / 100).toFixed(1)}% / ${((market.creatorFeeBps ?? 0) / 100).toFixed(1)}%`
+                : "—"
+            } />
             <Stat k="Graduated" v={market.graduated ? "Yes" : "Bonding curve"} />
           </div>
+          <p className="mt-4 border-t border-forest-700 pt-3 text-xs text-sage">
+            Circulating = 100% of total (bonding-curve reserve included, unlocked). Market cap =
+            price × circulating; FDV = price × total. Graduation at $50,000 mcap.
+          </p>
           <p className="mt-4 border-t border-forest-700 pt-3 text-xs text-sage">
             Perps status: <span className="font-bold text-ivory">{market.perpsStatus.replace("_", " ")}</span>.
             Registration ≠ tradability — pending markets cannot accept real-money leverage.
@@ -103,7 +155,7 @@ export default function TradePage({ params }: { params: Promise<{ tokenAddress: 
           </div>
           <div className="mt-4 lg:hidden">
             {tab === "spot" ? (
-              <TradePanel tokenAddress={tokenAddress} price={market.price} />
+              <TradePanel tokenAddress={tokenAddress} price={displayPrice} fees={fees} livePriceWei={livePriceWei} ethPrice={ethPrice} />
             ) : (
               <PerpsPanel
                 tokenAddress={tokenAddress}
@@ -130,7 +182,7 @@ export default function TradePage({ params }: { params: Promise<{ tokenAddress: 
             ))}
           </div>
           {tab === "spot" ? (
-            <TradePanel tokenAddress={tokenAddress} price={market.price} />
+            <TradePanel tokenAddress={tokenAddress} price={displayPrice} fees={fees} livePriceWei={livePriceWei} ethPrice={ethPrice} />
           ) : (
             <PerpsPanel
               tokenAddress={tokenAddress}
