@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --forest-950: #071c16;
+  --forest-900: #0b2920;
+  --forest-800: #123b2f;
+  --forest-border: #254a3c;
+  --gold: #f5ca65;
+  --gold-bright: #ffd84d;
+  --emerald-brand: #087f5b;
+  --ivory: #f8f6ea;
+  --sage: #a5b9ac;
+}
+
+html,
+body {
+  background: var(--forest-950);
+  color: var(--ivory);
+  font-family: Inter, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: "Space Grotesk", Inter, system-ui, sans-serif;
+}
+
+.font-mono,
+/* tabular numbers for market data */
+.num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.card {
+  @apply rounded-2xl border bg-forest-800;
+  border-color: var(--forest-border);
+}
+
+.btn-gold {
+  @apply rounded-xl px-5 py-3 font-semibold text-forest-950 transition hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40;
+  background: var(--gold);
+}
+
+.btn-ghost {
+  @apply rounded-xl border px-5 py-3 font-semibold transition hover:bg-forest-800 disabled:opacity-40;
+  border-color: var(--forest-border);
+  color: var(--ivory);
+}
+
+.input {
+  @apply w-full rounded-xl border bg-forest-900 px-4 py-3 text-ivory placeholder:text-sage/60 outline-none focus:border-gold;
+  border-color: var(--forest-border);
+}
+
+.label {
+  @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-sage;
+}
+
+.skeleton {
+  @apply animate-pulse rounded-lg bg-forest-800;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #254a3c;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

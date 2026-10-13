@@ -1,0 +1,183 @@
+// LEVIUM Prisma schema (Postgres). Blockchain + protocol contracts remain
+// authoritative for balances/positions; this DB is the indexer/read cache,
+// analytics store, and admin audit trail. Run: prisma generate / prisma db push.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  displayName   String?
+  avatarUrl     String?
+  firstSeenAt   DateTime @default(now())
+  wallets       Wallet[]
+}
+
+model Wallet {
+  id        String   @id @default(cuid())
+  address   String   @unique
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Token {
+  id              String    @id @default(cuid())
+  tokenAddress    String    @unique
+  name            String?
+  symbol          String?
+  logo            String?
+  description     String?
+  website         String?
+  twitter         String?
+  telegram        String?
+  discord         String?
+  creatorAddress  String?
+  factoryAddress  String?
+  launchBlock     BigInt?
+  launchTimestamp DateTime?
+  graduated       Boolean   @default(false)
+  hidden          Boolean   @default(false) // discovery visibility (admin)
+  flagged         Boolean   @default(false) // suspicious-token flag (admin)
+  spotMarket      SpotMarket?
+  perpMarket      PerpMarket?
+  spotTrades      SpotTrade[]
+  candles         PriceCandle[]
+  @@index([graduated])
+  @@index([symbol])
+}
+
+model SpotMarket {
+  id           String  @id @default(cuid())
+  tokenAddress String  @unique
+  token        Token   @relation(fields: [tokenAddress], references: [tokenAddress], onDelete: Cascade)
+  poolAddress  String?
+  liquidity    Decimal?
+  reserveQuote Decimal?
+  price        Decimal?
+}
+
+model PerpMarket {
+  id              String  @id @default(cuid())
+  tokenAddress    String  @unique
+  token           Token   @relation(fields: [tokenAddress], references: [tokenAddress], onDelete: Cascade)
+  // REGISTERED | OBSERVING | ELIGIBLE | ACTIVE | PAUSED | CLOSE_ONLY | DISABLED
+  status          String  @default("REGISTERED")
+  maxLeverage     Int     @default(5)
+  maxPositionSize Decimal?
+  maxOpenInterest Decimal?
+  minLiquidity    Decimal?
+  mmrBps          Int     @default(50)
+  longOI          Decimal? @default(0)
+  shortOI         Decimal? @default(0)
+  fundingRateBps  Int?    @default(0)
+  positions       PerpPosition[]
+}
+
+model SpotTrade {
+  id            String   @id @default(cuid())
+  txHash        String
+  logIndex      Int      @default(0)
+  blockNumber   BigInt
+  timestamp     DateTime
+  tokenAddress  String
+  token         Token    @relation(fields: [tokenAddress], references: [tokenAddress], onDelete: Cascade)
+  trader        String
+  side          String   // BUY | SELL
+  tokenAmount   Decimal
+  quoteAmount   Decimal
+  price         Decimal
+  @@unique([txHash, logIndex, tokenAddress])
+  @@index([tokenAddress, timestamp])
+}
+
+model PerpPosition {
+  id           String  @id @default(cuid())
+  marketId     String
+  market       PerpMarket @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  trader       String
+  side         String  // long | short
+  leverage     Int
+  size         Decimal
+  entryPrice   Decimal
+  collateral   Decimal
+  status       String  @default("OPEN") // OPEN | CLOSED | LIQUIDATED
+  // SIMULATION ONLY until audit gate passes:
+  simulated    Boolean @default(true)
+  events       PositionEvent[]
+  @@index([trader, status])
+}
+
+model PositionEvent {
+  id         String   @id @default(cuid())
+  positionId String
+  position   PerpPosition @relation(fields: [positionId], references: [id], onDelete: Cascade)
+  type       String   // OPEN | INCREASE | REDUCE | CLOSE | LIQUIDATE | FUNDING
+  timestamp  DateTime @default(now())
+  detail     String?
+}
+
+model FundingPayment {
+  id           String   @id @default(cuid())
+  tokenAddress String
+  trader       String
+  amount       Decimal
+  rateBps      Int
+  timestamp    DateTime @default(now())
+  @@index([tokenAddress, timestamp])
+}
+
+model Liquidation {
+  id           String   @id @default(cuid())
+  tokenAddress String
+  trader       String
+  price        Decimal
+  penaltyBps   Int      @default(0)
+  timestamp    DateTime @default(now())
+}
+
+model CreatorFee {
+  id           String   @id @default(cuid())
+  tokenAddress String
+  creator      String
+  earned       Decimal  @default(0)
+  claimed      Decimal  @default(0)
+}
+
+model PriceCandle {
+  tokenAddress String
+  timeframe    String   // 1m|5m|15m|1h|4h|1d
+  timestamp    DateTime
+  open         Decimal
+  high         Decimal
+  low          Decimal
+  close        Decimal
+  volume       Decimal  @default(0)
+  token        Token    @relation(fields: [tokenAddress], references: [tokenAddress], onDelete: Cascade)
+  @@id([tokenAddress, timeframe, timestamp])
+  @@index([tokenAddress, timeframe, timestamp])
+}
+
+model IndexerCheckpoint {
+  key       String   @id
+  lastBlock BigInt
+  updatedAt DateTime @updatedAt
+}
+
+model AdminAction {
+  id        String   @id @default(cuid())
+  wallet    String
+  action    String
+  prevValue String?
+  newValue  String?
+  txHash    String?
+  createdAt DateTime @default(now())
+  @@index([wallet, createdAt])
+}
