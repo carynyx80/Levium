@@ -43,15 +43,15 @@
 }
 
 :root {
-  --forest-950: #100a1e;
-  --forest-900: #1a102d;
-  --forest-800: #241638;
-  --forest-border: #3c235d;
-  --gold: #a66bff;
-  --gold-bright: #bd91ff;
+  --forest-950: #0c0d10;
+  --forest-900: #14161b;
+  --forest-800: #1d2027;
+  --forest-border: #2e323c;
+  --gold: #c7cdd8;
+  --gold-bright: #f1f4f9;
   --emerald-brand: #087f5b;
-  --ivory: #f4efff;
-  --sage: #b5a5cc;
+  --ivory: #f4f6fa;
+  --sage: #9aa1b0;
 }
 
 html,
@@ -109,15 +109,15 @@ h3,
   @apply animate-pulse rounded-lg bg-forest-800;
 }
 
-/* Subtle lavender glow for featured / hover elements */
-.glow-lavender {
+/* Subtle silver glow for featured / hover elements */
+.glow-silver {
   box-shadow:
-    0 0 24px rgba(166, 107, 255, 0.25),
-    0 0 64px rgba(166, 107, 255, 0.12);
+    0 0 24px rgba(199, 205, 216, 0.22),
+    0 0 64px rgba(199, 205, 216, 0.1);
 }
 
 ::selection {
-  background: rgba(166, 107, 255, 0.4);
+  background: rgba(199, 205, 216, 0.35);
 }
 
 :focus-visible {
@@ -130,8 +130,55 @@ h3,
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3c235d;
+  background: #2e323c;
   border-radius: 8px;
+}
+
+/* ---------- Responsive core: full-screen, device-adaptive ---------- */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
+  min-height: 100dvh;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/* Prevent iOS auto-zoom on focus: inputs stay at 16px+ on small screens */
+.input,
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+/* Content pages must grow naturally — never force fixed heights */
+main {
+  width: 100%;
+}
+
+/* Touch targets: minimum 44px on coarse pointers */
+@media (pointer: coarse) {
+  .btn-gold,
+  .btn-ghost {
+    min-height: 44px;
+  }
+}
+
+/* Native collapsibles for secondary information on mobile */
+details.collapsible > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details.collapsible > summary::-webkit-details-marker {
+  display: none;
 }
 ::-webkit-scrollbar-track {
   background: transparent;

@@ -5,21 +5,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Midnight Purple x Electric Lavender theme. Token names are kept
-        // stable so every existing className resolves to the new palette.
+        // Silver x Ash theme. Token names are kept stable so every existing
+        // className resolves to the new palette. No purple remains.
         forest: {
-          950: "#100A1E", // primary background — Midnight Purple
-          900: "#1A102D", // secondary background — Deep Purple
-          800: "#241638", // card background — Rich Purple
-          700: "#3C235D", // borders — Muted Purple
+          950: "#0C0D10", // primary background — Ash Black
+          900: "#14161B", // secondary background — Ash
+          800: "#1D2027", // card background — Silver Ash
+          700: "#2E323C", // borders — Ash Border
         },
         gold: {
-          DEFAULT: "#A66BFF", // primary accent — Electric Lavender
-          bright: "#BD91FF", // hover/glow — Bright Lavender
+          DEFAULT: "#C7CDD8", // primary accent — Silver
+          bright: "#F1F4F9", // hover/glow — Bright Silver
         },
         emeraldbrand: "#087F5B", // status surfaces (unchanged)
-        ivory: "#F4EFFF", // primary text — Soft White
-        sage: "#B5A5CC", // secondary text — Muted Lavender
+        ivory: "#F4F6FA", // primary text — Silver White
+        sage: "#9AA1B0", // secondary text — Ash Gray
         tradegreen: "#19D69A", // trading indicators (preserved)
         tradered: "#FF5263", // trading indicators (preserved)
       },

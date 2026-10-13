@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Navbar } from "@/components/Navbar";
@@ -8,6 +8,13 @@ export const metadata: Metadata = {
   description:
     "Launch tokens, trade spot markets, and access perpetual futures on Robinhood Chain. One platform for creators, traders, bulls, and bears.",
   icons: { icon: "/favicon.svg" },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#0C0D10",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -22,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Providers>
           <Navbar />
-          <main className="mx-auto min-h-screen w-full max-w-7xl px-4 pb-24 pt-6 sm:px-6">
+          <main className="mx-auto min-h-dvh w-full max-w-[1600px] px-4 pb-[max(6rem,env(safe-area-inset-bottom))] pt-4 sm:px-6 sm:pt-6 lg:px-8">
             {children}
           </main>
           <footer className="border-t border-forest-700 py-8">

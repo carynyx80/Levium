@@ -37,10 +37,11 @@ export function PriceChart({ symbol, basePrice }: { symbol: string; basePrice: n
       const mod = await import("lightweight-charts");
       if (cancelled || !ref.current) return;
       chart = mod.createChart(ref.current, {
-        layout: { background: { color: "transparent" }, textColor: "#B5A5CC" },
-        grid: { vertLines: { color: "#3C235D" }, horzLines: { color: "#3C235D" } },
+        layout: { background: { color: "transparent" }, textColor: "#9AA1B0" },
+        grid: { vertLines: { color: "#2E323C" }, horzLines: { color: "#2E323C" } },
         width: ref.current.clientWidth,
-        height: 380,
+        // Compact height on phones, full terminal height on desktop.
+        height: window.innerWidth < 640 ? 300 : 380,
       });
       const series = chart.addCandlestickSeries({
         upColor: "#19D69A",

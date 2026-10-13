@@ -35,19 +35,26 @@ describe("drawer navigation config", () => {
   });
 });
 
-describe("midnight purple x electric lavender theme", () => {
+describe("silver x ash theme", () => {
   it("uses the official palette tokens", () => {
     const c = tailwindConfig.theme!.extend!.colors as Record<string, unknown>;
     const forest = c.forest as Record<string, string>;
     const gold = c.gold as Record<string, string>;
-    expect(forest["950"]).toBe("#100A1E");
-    expect(forest["900"]).toBe("#1A102D");
-    expect(forest["800"]).toBe("#241638");
-    expect(forest["700"]).toBe("#3C235D");
-    expect(gold.DEFAULT).toBe("#A66BFF");
-    expect(gold.bright).toBe("#BD91FF");
-    expect(c.ivory).toBe("#F4EFFF");
-    expect(c.sage).toBe("#B5A5CC");
+    expect(forest["950"]).toBe("#0C0D10");
+    expect(forest["900"]).toBe("#14161B");
+    expect(forest["800"]).toBe("#1D2027");
+    expect(forest["700"]).toBe("#2E323C");
+    expect(gold.DEFAULT).toBe("#C7CDD8");
+    expect(gold.bright).toBe("#F1F4F9");
+    expect(c.ivory).toBe("#F4F6FA");
+    expect(c.sage).toBe("#9AA1B0");
+  });
+
+  it("keeps no purple or lavender styling", async () => {
+    const fs = await import("node:fs");
+    const css = fs.readFileSync("app/globals.css", "utf8");
+    expect(css.toLowerCase()).not.toContain("lavender");
+    expect(css.toLowerCase()).not.toContain("purple");
   });
 
   it("preserves green/red trading indicators", () => {

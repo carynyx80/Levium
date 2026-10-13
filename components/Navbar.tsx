@@ -20,8 +20,8 @@ export function Navbar() {
   const path = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-40 border-b border-forest-700 bg-forest-900/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
+    <header className="sticky top-0 z-40 border-b border-forest-700 bg-forest-900/90 pt-[env(safe-area-inset-top)] backdrop-blur">
+      <div className="mx-auto flex h-16 w-full max-w-[1600px] items-center gap-2 px-3 sm:gap-4 sm:px-6">
         <button
           onClick={() => setMenuOpen(true)}
           aria-label="Open navigation menu"
@@ -31,10 +31,10 @@ export function Navbar() {
         >
           <Menu size={20} />
         </button>
-        <Link href="/" className="flex items-center gap-2.5">
+        <Link href="/" className="flex min-w-0 shrink-0 items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/levium-logo.svg" alt="LEVIUM" className="h-8 w-8" />
-          <span className="font-display text-lg font-bold tracking-wide text-ivory">
+          <img src="/levium-logo.svg" alt="LEVIUM" className="h-8 w-8 shrink-0" />
+          <span className="hidden font-display text-lg font-bold tracking-wide text-ivory min-[400px]:inline">
             LEVIUM
           </span>
         </Link>
@@ -53,8 +53,8 @@ export function Navbar() {
             </Link>
           ))}
         </nav>
-        <div className="ml-auto flex items-center gap-3">
-          <span className="hidden items-center gap-1.5 rounded-full border border-forest-700 px-3 py-1 text-xs text-sage sm:flex">
+        <div className="ml-auto flex min-w-0 items-center gap-2 sm:gap-3">
+          <span className="hidden shrink-0 items-center gap-1.5 rounded-full border border-forest-700 px-3 py-1 text-xs text-sage sm:flex">
             <span className="h-1.5 w-1.5 rounded-full bg-tradegreen" />
             Robinhood Chain
           </span>

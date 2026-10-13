@@ -10,7 +10,7 @@ import { NAV_ITEMS } from "./menu-items";
 import { cn } from "@/lib/utils";
 
 /**
- * Slide-out navigation drawer (Midnight Purple x Electric Lavender).
+ * Slide-out navigation drawer (Silver x Ash).
  * - Opens/closes with spring slide animation.
  * - Closes on: item select, Escape, overlay click, close button.
  * - Keyboard accessible: dialog semantics, initial focus on close, focus
@@ -70,7 +70,7 @@ export function MenuDrawer({ open, onClose }: { open: boolean; onClose: () => vo
             role="dialog"
             aria-modal="true"
             aria-label="Site navigation"
-            className="fixed left-0 top-0 z-50 flex h-full w-80 max-w-[85vw] flex-col border-r border-forest-700 bg-forest-900"
+            className="fixed left-0 top-0 z-50 flex h-full w-80 max-w-[85vw] flex-col border-r border-forest-700 bg-forest-900 pt-[env(safe-area-inset-top)]"
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
@@ -107,7 +107,7 @@ export function MenuDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                     className={cn(
                       "group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition",
                       active
-                        ? "glow-lavender bg-gold/15 text-gold"
+                        ? "glow-silver bg-gold/15 text-gold"
                         : "text-sage hover:bg-forest-800 hover:text-ivory",
                     )}
                   >
@@ -125,7 +125,7 @@ export function MenuDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                 );
               })}
             </nav>
-            <div className="mt-auto border-t border-forest-700 p-4 text-xs text-sage">
+            <div className="mt-auto border-t border-forest-700 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] text-xs text-sage">
               Launch it. Long it. Short it.
               <span className="mt-0.5 block text-sage/60">Perps in simulation mode.</span>
             </div>

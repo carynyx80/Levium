@@ -31,12 +31,12 @@ export default function HomePage() {
         <div
           aria-hidden
           className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-20 blur-3xl"
-          style={{ background: "#A66BFF" }}
+          style={{ background: "#C7CDD8" }}
         />
         <div
           aria-hidden
           className="pointer-events-none absolute -bottom-28 -left-16 h-72 w-72 rounded-full opacity-10 blur-3xl"
-          style={{ background: "#BD91FF" }}
+          style={{ background: "#F1F4F9" }}
         />
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-gold">
