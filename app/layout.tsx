@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Navbar } from "@/components/Navbar";
+import { SocialIcons } from "@/components/SocialIcons";
 
 export const metadata: Metadata = {
   title: "LEVIUM — Launch it. Long it. Short it.",
@@ -33,12 +34,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </main>
           <footer className="border-t border-forest-700 py-8">
-            <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 text-sm text-sage sm:px-6">
+            <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-2 px-4 text-sm text-sage sm:px-6 lg:px-8">
               <span className="font-display font-bold text-ivory">
                 LEVIUM <span className="text-gold">·</span>{" "}
                 <span className="font-normal text-sage">Launch it. Long it. Short it.</span>
               </span>
               <span>Built on Robinhood Chain · levium.world · Perpetuals: simulation only until audited.</span>
+              <SocialIcons className="mt-1" />
             </div>
           </footer>
         </Providers>

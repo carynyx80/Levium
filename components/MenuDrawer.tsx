@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useAccount } from "wagmi";
 import { NAV_ITEMS } from "./menu-items";
+import { SocialIcons } from "./SocialIcons";
 import { cn } from "@/lib/utils";
 
 /**
@@ -70,7 +71,7 @@ export function MenuDrawer({ open, onClose }: { open: boolean; onClose: () => vo
             role="dialog"
             aria-modal="true"
             aria-label="Site navigation"
-            className="fixed left-0 top-0 z-50 flex h-full w-80 max-w-[85vw] flex-col border-r border-forest-700 bg-forest-900 pt-[env(safe-area-inset-top)]"
+            className="fixed inset-y-0 left-0 z-[60] flex h-dvh w-full flex-col border-r border-forest-700 bg-forest-900 pt-[env(safe-area-inset-top)] sm:w-[320px] sm:max-w-[85vw]"
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
@@ -93,7 +94,7 @@ export function MenuDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                 <X size={18} />
               </button>
             </div>
-            <nav className="flex flex-col gap-1 overflow-y-auto p-3" aria-label="Sections">
+            <nav className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto p-3" aria-label="Sections">
               {NAV_ITEMS.map((item) => {
                 const href = hrefFor(item.href);
                 const active = isActive(item.href);
@@ -105,7 +106,7 @@ export function MenuDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                     onClick={onClose}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition",
+                      "group flex min-h-[48px] items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-medium transition",
                       active
                         ? "glow-silver bg-gold/15 text-gold"
                         : "text-sage hover:bg-forest-800 hover:text-ivory",
@@ -125,9 +126,12 @@ export function MenuDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                 );
               })}
             </nav>
-            <div className="mt-auto border-t border-forest-700 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] text-xs text-sage">
-              Launch it. Long it. Short it.
-              <span className="mt-0.5 block text-sage/60">Perps in simulation mode.</span>
+            <div className="mt-auto shrink-0 border-t border-forest-700 p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+              <SocialIcons />
+              <p className="mt-3 text-xs text-sage">
+                Launch it. Long it. Short it.
+                <span className="mt-0.5 block text-sage/60">Perps in simulation mode.</span>
+              </p>
             </div>
           </motion.aside>
         </>
