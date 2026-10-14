@@ -97,6 +97,9 @@ export default function TradePage({ params }: { params: { tokenAddress: string }
         >
           {shortAddress(tokenAddress)}
         </a>
+        <span className="rounded-full border border-forest-700 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-sage">
+          CA · Coming Soon
+        </span>
         <span className="num ml-auto font-display text-2xl font-bold text-ivory">
           {formatUsd(displayPrice, 4)}
           <span className={cn("ml-2 text-sm", market.change24h >= 0 ? "text-tradegreen" : "text-tradered")}>
