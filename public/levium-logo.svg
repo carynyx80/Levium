@@ -1,19 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="lgold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F1F4F9"/>
-      <stop offset="55%" stop-color="#C7CDD8"/>
-      <stop offset="100%" stop-color="#7E8592"/>
+    <linearGradient id="chrome-v" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F4F6FA"/>
+      <stop offset="35%" stop-color="#C7CDD8"/>
+      <stop offset="70%" stop-color="#7E8592"/>
+      <stop offset="100%" stop-color="#43484F"/>
     </linearGradient>
-    <linearGradient id="lem" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#9AA1B0"/>
-      <stop offset="100%" stop-color="#5B6270"/>
+    <linearGradient id="chrome-h" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8A919C"/>
+      <stop offset="45%" stop-color="#C7CDD8"/>
+      <stop offset="100%" stop-color="#F4F6FA"/>
+    </linearGradient>
+    <linearGradient id="chrome-dark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2A2E36"/>
+      <stop offset="100%" stop-color="#101216"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="#0C0D10"/>
+  <rect width="64" height="64" rx="14" fill="#0B0C0F"/>
   <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#2E323C" stroke-width="1.5"/>
-  <path d="M26 8 L40 8 L40 34 Q40 42 32 46 L22 51 L22 20 Q22 12 26 8 Z" fill="url(#lgold)"/>
-  <path d="M34 20 L40 20 L40 34 Q40 42 32 46 L28 48 Q34 40 34 30 Z" fill="url(#lem)" opacity="0.9"/>
-  <path d="M22 44 L44 30 Q50 27 56 27 L56 33 L30 48 Q24 51 20 51 Z" fill="url(#lgold)"/>
-  <path d="M30 48 L56 33 L56 36 Q48 44 36 47 Q32 48 28 49 Z" fill="url(#lem)" opacity="0.85"/>
+  <!-- vertical blade -->
+  <path d="M24 8 H31 Q37 8 37 14 V36 Q37 43 31 47 L25 51 Q23 52 23 49 Z" fill="url(#chrome-v)"/>
+  <!-- inner facet shadow -->
+  <path d="M24 8 L31 15 Q33 17 33 21 V38 L25 44 L23 45 Z" fill="url(#chrome-dark)" opacity="0.85"/>
+  <!-- foot blade sweeping to a point -->
+  <path d="M23 51 L33 41 Q35 39 39 39 H55 L61 39 L51 50 Q49 53 45 53 H26 Q23 53 23 51 Z" fill="url(#chrome-h)"/>
 </svg>

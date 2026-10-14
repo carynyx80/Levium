@@ -38,6 +38,13 @@ const schema = z.object({
 
 type Form = z.infer<typeof schema>;
 
+/**
+ * Launch gate: form stays fully editable, but deployment is disabled until
+ * the official launch. Every submission path (click, Enter key, programmatic)
+ * funnels through onSubmit, which returns before any wallet interaction.
+ */
+const LAUNCH_ENABLED = false;
+
 export default function LaunchPage() {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
@@ -84,6 +91,7 @@ export default function LaunchPage() {
     onChainFeeUsd !== null ? Math.abs(onChainFeeUsd - LAUNCH_FEE_USD) / LAUNCH_FEE_USD : null;
 
   async function onSubmit(data: Form) {
+    if (!LAUNCH_ENABLED) return; // gated: no wallet, no deployment, no transaction
     if (!isConnected || !address) {
       setTx({ stage: "failed", reason: "Connect a wallet first." });
       return;
@@ -281,9 +289,23 @@ export default function LaunchPage() {
           </p>
         )}
 
-        <button type="submit" className="btn-gold" disabled={tx.stage === "awaiting-wallet" || tx.stage === "pending"}>
-          Deploy Token + Initialize Markets
+        <button
+          type="button"
+          disabled
+          aria-disabled="true"
+          title="Token launches open soon"
+          className="relative cursor-not-allowed overflow-hidden rounded-xl border border-forest-700 bg-forest-800 px-5 py-3 font-semibold text-sage"
+        >
+          <span className="select-none blur-[1.5px]">Deploy Token + Initialize Markets</span>
+          <span className="absolute inset-0 flex items-center justify-center bg-forest-950/40 backdrop-blur-[2px]">
+            <span className="rounded-full border border-gold/40 bg-forest-900/80 px-4 py-1 text-sm font-bold tracking-wide text-ivory">
+              Coming Soon
+            </span>
+          </span>
         </button>
+        <p className="text-center text-xs text-sage">
+          Token launches open soon — configure everything now; deployment activates at launch.
+        </p>
         <p className="text-xs text-sage">
           Atomic where possible: token deploy → supply split (curve reserve + creator) → spot init
           → perps registration (pending). If the flow needs multiple transactions, each step confirms
