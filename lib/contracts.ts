@@ -42,3 +42,7 @@ export const perpRegistryAbi = [
 /** Perps safety gate: only "simulation" is implemented. Anything else disables. */
 export const PERPS_MODE = process.env.PERPS_MODE || "simulation";
 export const PERPS_SIMULATION = PERPS_MODE === "simulation";
+
+/** $LEV ecosystem token contract (team-provided; env-overridable). */
+export const LEV_TOKEN_CA =
+  process.env.NEXT_PUBLIC_LEV_TOKEN_ADDRESS || "0x0bebddea2f21d69a8dd73ec264746d792aeb5da0";

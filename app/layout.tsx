@@ -3,6 +3,9 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Navbar } from "@/components/Navbar";
 import { SocialIcons } from "@/components/SocialIcons";
+import { LEV_TOKEN_CA } from "@/lib/contracts";
+import { explorerAddressUrl } from "@/lib/chain";
+import { shortAddress } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "LEVIUM — Launch it. Long it. Short it.",
@@ -40,6 +43,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <span className="font-normal text-sage">Launch it. Long it. Short it.</span>
               </span>
               <span>Built on Robinhood Chain · levium.world · Perpetuals: simulation only until audited.</span>
+              <span className="text-xs">
+                $LEV CA:{" "}
+                <a
+                  href={explorerAddressUrl(LEV_TOKEN_CA)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="num text-gold hover:underline"
+                >
+                  {shortAddress(LEV_TOKEN_CA, 6)}
+                </a>
+              </span>
               <SocialIcons className="mt-1" />
             </div>
           </footer>

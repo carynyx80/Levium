@@ -4,7 +4,7 @@ import {
   ROBINHOOD_EXPLORER_URL,
   ROBINHOOD_RPC_URL,
 } from "@/lib/chain";
-import { ADDRESSES, PERPS_MODE } from "@/lib/contracts";
+import { ADDRESSES, LEV_TOKEN_CA, PERPS_MODE } from "@/lib/contracts";
 import { LAUNCH_FEE_USD } from "@/lib/eth-price";
 
 /**
@@ -13,6 +13,7 @@ import { LAUNCH_FEE_USD } from "@/lib/eth-price";
  */
 export default function SettingsPage() {
   const contracts: [string, string][] = [
+    ["$LEV token", LEV_TOKEN_CA],
     ["Token factory", ADDRESSES.tokenFactory || "Not deployed"],
     ["Bonding curve", ADDRESSES.bondingCurve || "Not deployed"],
     ["Perp registry", ADDRESSES.perpRegistry || "Not deployed"],

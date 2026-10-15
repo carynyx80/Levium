@@ -1,4 +1,7 @@
 import { Coins } from "lucide-react";
+import { LEV_TOKEN_CA } from "@/lib/contracts";
+import { explorerAddressUrl } from "@/lib/chain";
+import { shortAddress } from "@/lib/utils";
 
 /**
  * $LEV staking — COMING SOON.
@@ -26,6 +29,17 @@ export default function StakePage() {
           A place to stake $LEV tokens for fee discounts, rewards, and premium
           analytics. Staking opens with the audited staking module — nothing to
           deposit yet, and this page will never ask for funds before then.
+        </p>
+        <p className="num mt-2 text-xs text-sage">
+          $LEV CA:{" "}
+          <a
+            href={explorerAddressUrl(LEV_TOKEN_CA)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold hover:underline"
+          >
+            {shortAddress(LEV_TOKEN_CA, 6)}
+          </a>
         </p>
         <div className="mx-auto mt-6 flex max-w-sm flex-col gap-3">
           <input disabled placeholder="Amount of $LEV" className="input cursor-not-allowed opacity-50" />
